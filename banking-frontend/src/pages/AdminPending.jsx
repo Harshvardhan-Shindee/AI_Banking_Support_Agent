@@ -13,7 +13,7 @@ const token = localStorage.getItem("token");
       console.log("CALLING API...");
 
       const res = await axios.get(
-  `http://localhost:8001/api/admin/pending?page=${page}&size=5`,
+  `${import.meta.env.VITE_API_URL}/admin/pending?page=${page}&size=5`,
   {
     headers: {
       Authorization: `Bearer ${token}`,
@@ -33,7 +33,7 @@ const token = localStorage.getItem("token");
   const approveUser = async (accno) => {
   try {
     await axios.put(
-      `http://localhost:8001/api/admin/approve/${accno}`,
+      `${import.meta.env.VITE_API_URL}/admin/approve/${accno}`,
       {},
       {
         headers: {
@@ -57,7 +57,7 @@ const token = localStorage.getItem("token");
 const rejectUser = async (accno) => {
   try {
     await axios.put(
-      `http://localhost:8001/api/admin/reject/${accno}`,
+      `${import.meta.env.VITE_API_URL}/admin/reject/${accno}`,
       {},
       {
         headers: {

@@ -8,13 +8,13 @@ const Register = () => {
   const navigate = useNavigate();
 
   const [form, setForm] = useState({
-  custname: "",
-  acctype: "",
-  email: "",
-  password: "",
-  confirmPassword: ""
-});
-const passwordsMatch = form.password === form.confirmPassword;
+    custname: "",
+    acctype: "",
+    email: "",
+    password: "",
+    confirmPassword: ""
+  });
+  const passwordsMatch = form.password === form.confirmPassword;
 
   const [loading, setLoading] = useState(false);
   const [error, setError] = useState("");
@@ -32,14 +32,14 @@ const passwordsMatch = form.password === form.confirmPassword;
     setError("");
 
     if (!passwordsMatch) {
-  setError("Passwords do not match");
-  setLoading(false);
-  return;
-}
+      setError("Passwords do not match");
+      setLoading(false);
+      return;
+    }
 
     try {
       await axios.post(
-        "http://localhost:8001/api/auth/register",
+        `${import.meta.env.VITE_API_URL}/auth/register`,
         form
       );
 
@@ -103,16 +103,16 @@ const passwordsMatch = form.password === form.confirmPassword;
           />
 
           <input
-  type="password"
-  name="confirmPassword"
-  placeholder="Re-enter Password"
-  value={form.confirmPassword}
-  onChange={handleChange}
-  required
-/>
-{form.confirmPassword && !passwordsMatch && (
-  <div className="error-box">Passwords do not match</div>
-)}
+            type="password"
+            name="confirmPassword"
+            placeholder="Re-enter Password"
+            value={form.confirmPassword}
+            onChange={handleChange}
+            required
+          />
+          {form.confirmPassword && !passwordsMatch && (
+            <div className="error-box">Passwords do not match</div>
+          )}
           <button type="submit" disabled={loading || !passwordsMatch}>
             {loading ? "Creating..." : "Register"}
           </button>

@@ -66,7 +66,7 @@ public class SecurityConfig {
         config.setAllowedOrigins(
                 List.of(
                         "http://localhost:5173",
-                        "http://localhost:8001"
+                        "https://ai-banking-support-agent.vercel.app"
                 )
         );
         config.setAllowedMethods(List.of("GET", "POST", "PUT", "DELETE", "OPTIONS"));

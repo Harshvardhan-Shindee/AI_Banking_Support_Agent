@@ -1,0 +1,83 @@
+.layout-wrapper {
+  min-height: 100vh;
+  display: flex;
+  flex-direction: column;
+}
+
+.layout-content {
+  flex: 1;
+  padding: 40px 20px;
+  position: relative;
+}
+/* HEADER */
+.header {
+  background: #355c7d;
+  color: white;
+  padding: 16px 40px;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  font-size: 18px;
+  box-shadow: 0 3px 10px rgba(0,0,0,0.1);
+}
+
+.logo {
+  font-weight: 600;
+  font-size: 20px;
+}
+
+.profile-section {
+  display: flex;
+  align-items: center;
+  gap: 15px;
+}
+
+.profile-section button {
+  background: white;
+  border: none;
+  padding: 6px 14px;
+  border-radius: 6px;
+  cursor: pointer;
+  font-weight: 500;
+}
+
+.profile-section button:hover {
+  background: #f3f4f6;
+}
+
+/* FOOTER */
+.footer {
+  background: #355c7d;
+  color: white;
+  text-align: center;
+  padding: 14px;
+  margin-top: 40px;
+}
+
+/* 🔥 TOAST NOTIFICATION */
+.toast {
+  position: fixed;
+  top: 20px;
+  right: 20px;
+  background: #355c7d;
+  color: white;
+  padding: 12px 20px;
+  border-radius: 10px;
+  z-index: 9999;
+  font-weight: 500;
+  box-shadow: 0 10px 25px rgba(0,0,0,0.2);
+  animation: fadeIn 0.3s ease;
+}
+
+/* 🔥 animation */
+@keyframes fadeIn {
+  from {
+    opacity: 0;
+    transform: translateY(-10px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+

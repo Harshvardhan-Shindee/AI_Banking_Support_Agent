@@ -1,0 +1,93 @@
+.center-wrapper {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  min-height: 80vh;
+}
+
+.auth-card {
+  background: rgba(255, 255, 255, 0.75);
+  backdrop-filter: blur(14px);
+  padding: 40px;
+  border-radius: 20px;
+  width: 400px;
+  box-shadow: 0 15px 35px rgba(0,0,0,0.1);
+}
+
+.auth-card h2 {
+  margin-bottom: 8px;
+}
+
+.subtitle {
+  margin-bottom: 25px;
+  color: #555;
+}
+
+.auth-card input {
+  width: 100%;
+  padding: 12px;
+  margin-bottom: 15px;
+  border-radius: 10px;
+  border: 1px solid #d1d5db;
+  outline: none;
+}
+
+.auth-card input:focus {
+  border-color: #355c7d;
+}
+
+.auth-card button {
+  width: 100%;
+  padding: 12px;
+  border-radius: 10px;
+  border: none;
+  background: #355c7d;
+  color: white;
+  font-weight: 600;
+  cursor: pointer;
+}
+
+.auth-card button:hover {
+  background: #2c4d69;
+}
+
+.error-box {
+  background: #fde2e2;
+  color: #b91c1c;
+  padding: 10px;
+  border-radius: 8px;
+  margin-bottom: 15px;
+}
+
+.auth-footer {
+  margin-top: 20px;
+  font-size: 14px;
+}
+
+.auth-footer span {
+  margin-left: 5px;
+  color: #355c7d;
+  cursor: pointer;
+  font-weight: 600;
+}
+.auth-card select {
+  width: 100%;
+  padding: 12px;
+  margin-bottom: 15px;
+  border-radius: 10px;
+  border: 1px solid #d1d5db;
+  outline: none;
+  background: white;
+  font-size: 14px;
+  color: #555;
+  appearance: none; 
+}
+.auth-card select:focus {
+  border-color: #355c7d;
+}
+.auth-card select {
+  background-image: url("data:image/svg+xml;charset=UTF-8,%3Csvg fill='%23355c7d' height='20' viewBox='0 0 20 20' width='20' xmlns='http://www.w3.org/2000/svg'%3E%3Cpath d='M5 7l5 5 5-5z'/%3E%3C/svg%3E");
+  background-repeat: no-repeat;
+  background-position: right 10px center;
+  background-size: 16px;
+}

@@ -1,0 +1,394 @@
+🧱 1️⃣ Overall Architecture
+
+You built a Layered Architecture (Spring Boot):
+
+Controller → Service → Repository → Database
+
+Plus:
+
+DTO Layer
+
+Security Layer (JWT)
+
+Exception Handling Layer
+
+This is proper enterprise structure.
+
+📁 PACKAGE STRUCTURE — What & Why
+🔹 entity
+Example:
+
+Customer
+
+Transaction
+
+Why?
+
+Represents database tables using JPA.
+
+Annotations Used:
+@Entity
+@Table(name = "customers")
+
+Meaning:
+
+This class maps to DB table.
+
+@Id
+@GeneratedValue(strategy = GenerationType.IDENTITY)
+
+Meaning:
+
+Primary key auto increment.
+
+@Column(nullable = false)
+
+Meaning:
+
+DB column constraints.
+
+🔹 repository
+
+Example:
+
+CustomerRepository
+
+TransactionRepository
+
+public interface CustomerRepository extends JpaRepository<Customer, Long>
+
+Why?
+
+JPA gives built-in CRUD
+
+No need to write SQL manually
+
+Custom methods like:
+
+Optional<Customer> findByEmail(String email);
+List<Customer> findByStatus(String status);
+Page<Customer> findAll(Pageable pageable);
+
+Spring auto-generates queries from method names.
+
+🔹 dto (VERY IMPORTANT)
+
+You created:
+
+RegisterRequest
+
+LoginRequest
+
+CustomerResponse
+
+AdminUserResponse
+
+ErrorResponse
+
+Why DTO?
+
+To:
+
+Hide entity fields (like password)
+
+Control API response
+
+Avoid exposing DB structure
+
+Improve security
+
+Never return entity directly in production systems.
+
+🔹 service
+
+Business logic layer.
+
+Example:
+
+AuthService
+
+CustomerService
+
+AdminService
+
+TransactionService
+
+Why Service Layer?
+
+Controllers should NOT:
+
+Access repository directly
+
+Contain business logic
+
+Service:
+
+Validates
+
+Applies rules
+
+Controls access logic
+
+Performs operations
+
+🔹 service.impl
+
+Actual implementations.
+
+Example:
+
+@Service
+public class AuthServiceImpl implements AuthService
+Why @Service?
+
+Tells Spring:
+
+This is a business component → manage it as a bean.
+
+🔐 SECURITY LAYER (JWT)
+
+You implemented proper stateless authentication.
+
+🔹 SecurityConfig
+
+Key annotations:
+
+@Configuration
+@EnableMethodSecurity
+
+Meaning:
+
+This class configures Spring Security
+
+Enables @PreAuthorize
+
+🔹 SecurityFilterChain
+
+You defined two chains:
+
+Public (for /api/auth/**)
+
+Secured (for everything else)
+
+Important config:
+
+.requestMatchers("/api/admin/**").hasRole("ADMIN")
+
+Meaning:
+Only admin can access those endpoints.
+
+🔹 JWT Flow
+Login Flow
+
+User sends email/password
+
+AuthenticationManager authenticates
+
+If valid → JWT token generated
+
+Token returned to frontend
+
+🔹 JwtAuthenticationFilter
+
+Purpose:
+
+Intercepts every request
+
+Extracts token
+
+Validates token
+
+Sets authentication in SecurityContext
+
+Without this, JWT won’t work.
+
+🔹 SecurityContextHolder
+
+Used in:
+
+SecurityContextHolder.getContext().getAuthentication().getName();
+
+Why?
+To get currently logged-in user email.
+
+Used in:
+
+TransactionService
+
+AuthService
+
+CustomerService
+
+💰 TRANSACTION SERVICE
+
+You implemented:
+
+deposit
+
+withdraw
+
+transfer
+
+getAllTransactions
+
+getMiniStatement
+
+Important Logic You Added
+
+✔ Prevent negative amount
+✔ Prevent transfer to self
+✔ Prevent insufficient balance
+✔ Restrict user to own account
+✔ Allow admin to operate any account
+
+This is correct role-based business control.
+
+👑 ADMIN FEATURES
+
+Admin can:
+
+Approve user
+
+Reject user
+
+Block user
+
+Unblock user
+
+View paginated user list
+
+View user transactions
+
+Pagination
+
+Used:
+
+Pageable pageable = PageRequest.of(page, size, Sort.by("accno").descending());
+Page<Customer> users = repository.findAll(pageable);
+
+Why?
+Efficient data loading.
+No loading 10,000 users at once.
+
+🖼️ PROFILE PICTURE UPLOAD
+
+Used:
+
+MultipartFile
+
+Why?
+Spring handles file upload easily.
+
+Validation:
+
+Check empty
+
+Check content type
+
+Check size
+
+Delete old file
+
+Generate unique filename
+
+Stored in:
+
+uploads/profile/
+
+Saved filename in DB only.
+
+You didn’t store full path → correct approach.
+
+❗ EXCEPTION HANDLING
+
+You created:
+
+@RestControllerAdvice
+
+Why?
+Global exception handling.
+
+Handles:
+
+RuntimeException
+
+Validation errors
+
+Prevents ugly stacktrace responses.
+
+🔍 ANNOTATIONS YOU USED (Important)
+@RestController
+
+Defines REST API controller.
+
+@RequestMapping
+
+Defines base URL.
+
+@GetMapping / @PostMapping / @PutMapping
+
+Maps HTTP methods.
+
+@RequestBody
+
+Maps JSON request to DTO.
+
+@PathVariable
+
+Extracts URL variable.
+
+@RequestParam
+
+Reads query parameters.
+
+@Autowired
+
+Injects dependency (field injection — works but constructor injection is cleaner).
+
+@Transactional
+
+Ensures:
+
+All DB operations succeed or rollback.
+
+Used in transaction operations.
+
+🧠 Important Concepts You Implemented Correctly
+
+✔ Layered architecture
+✔ JWT stateless auth
+✔ Role-based access
+✔ DTO pattern
+✔ Pagination
+✔ File upload with validation
+✔ Business logic separation
+✔ Admin vs Customer separation
+✔ Proper security configuration
+
+This is not beginner-level backend anymore.
+
+📊 Current Backend Level
+
+Architecture maturity:
+👉 9/10 junior backend ready
+Very solid project structure.
+
+Only improvements left:
+
+Replace Map responses with ApiResponse DTO
+
+Use constructor injection instead of @Autowired
+
+Add logging
+
+Add validation annotations in DTO
+
+Add refresh token (optional advanced)
+
+🔥 Final Summary in One Line
+
+You built:
+
+A JWT-secured, role-based, layered Spring Boot banking backend with file upload, pagination, and transaction management.
+
+That’s solid.

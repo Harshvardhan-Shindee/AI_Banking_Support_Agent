@@ -1,0 +1,148 @@
+* {
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+}
+
+html, body, #root {
+  height: 100%;
+}
+
+body {
+  font-family: 'Segoe UI', sans-serif;
+  background: linear-gradient(135deg, #e9eff6, #d6e0ea);
+  color: #1f2937;
+}
+
+/* GLOBAL WRAPPER */
+.page-container {
+  padding: 60px 20px;
+  min-height: 80vh;
+}
+
+/* 🔥 Overlay */
+.modal-overlay {
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  background: rgba(0,0,0,0.4);
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  z-index: 1000;
+}
+
+/* 🔥 Modal Card */
+.modal-card {
+  background: white;
+  padding: 30px;
+  border-radius: 16px;
+  width: 380px;
+  box-shadow: 0 15px 35px rgba(0,0,0,0.2);
+  text-align: center;
+}
+
+/* 🔥 Heading */
+.modal-card h3 {
+  margin-bottom: 20px;
+}
+
+/* 🔥 Inputs */
+.modal-card input {
+  width: 100%;
+  padding: 12px;
+  margin-bottom: 15px;
+  border-radius: 10px;
+  border: 1px solid #d1d5db;
+  outline: none;
+}
+
+.modal-card input:focus {
+  border-color: #355c7d;
+}
+
+/* 🔥 Buttons */
+.modal-card button {
+  width: 100%;
+  padding: 12px;
+  border-radius: 10px;
+  border: none;
+  margin-top: 10px;
+  cursor: pointer;
+  font-weight: 600;
+}
+
+/* Primary button */
+.modal-card button:first-of-type {
+  background: #355c7d;
+  color: white;
+}
+
+.modal-card button:first-of-type:hover {
+  background: #2c4d69;
+}
+
+/* Cancel button */
+.modal-card button:last-of-type {
+  background: #e5e7eb;
+  color: #333;
+}
+
+.modal-card button:last-of-type:hover {
+  background: #d1d5db;
+}
+
+.success-box {
+  background: #e6f4ea;
+  color: #166534;
+  padding: 10px;
+  border-radius: 8px;
+  margin-bottom: 15px;
+}
+
+/* 🔥 PROFESSIONAL TOAST */
+.toast {
+  position: fixed;
+  top: 80px;
+  left: 50%;
+  transform: translateX(-50%);
+  
+  background: #e6f4ea;   /* light green */
+  color: #166534;        /* dark green text */
+  
+  padding: 12px 24px;
+  border-radius: 12px;
+  
+  font-weight: 500;
+  font-size: 14px;
+  
+  box-shadow: 0 8px 25px rgba(0,0,0,0.1);
+  
+  z-index: 9999;
+  
+  animation: slideDown 0.3s ease;
+}
+
+/* 🔥 animation */
+@keyframes slideDown {
+  from {
+    opacity: 0;
+    transform: translate(-50%, -20px);
+  }
+  to {
+    opacity: 1;
+    transform: translate(-50%, 0);
+  }
+}
+
+.toast.success {
+  background: #e6f4ea;
+  color: #166534;
+}
+
+.toast.error {
+  background: #fde2e2;
+  color: #b91c1c;
+}

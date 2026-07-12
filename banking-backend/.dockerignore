@@ -1,0 +1,7 @@
+target
+.idea
+.env
+uploads
+.git
+.gitignore
+README.md

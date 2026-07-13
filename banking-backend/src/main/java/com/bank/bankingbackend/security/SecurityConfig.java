@@ -16,12 +16,16 @@ import org.springframework.security.web.SecurityFilterChain;
 import org.springframework.web.cors.CorsConfiguration;
 import org.springframework.web.cors.CorsConfigurationSource;
 import org.springframework.web.cors.UrlBasedCorsConfigurationSource;
+import org.springframework.beans.factory.annotation.Value;
 
 import java.util.List;
 
 @Configuration
 @EnableMethodSecurity
 public class SecurityConfig {
+
+        @Value("${cors.allowed-origin}")
+private String frontendUrl;
 
     @Bean
     public SecurityFilterChain securityFilterChain(HttpSecurity http,
@@ -66,7 +70,7 @@ public class SecurityConfig {
         config.setAllowedOrigins(
                 List.of(
                         "http://localhost:5173",
-                        "https://ai-banking-support-agent.vercel.app"
+                        frontendUrl
                 )
         );
         config.setAllowedMethods(List.of("GET", "POST", "PUT", "DELETE", "OPTIONS"));

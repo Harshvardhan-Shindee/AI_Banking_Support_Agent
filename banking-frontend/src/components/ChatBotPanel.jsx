@@ -124,7 +124,7 @@ const ChatBotPanel = () => {
         setTyping(true);
 
         try {
-            const res = await fetch("http://localhost:8002/chat", {
+            const res = await fetch(`${import.meta.env.VITE_AI_URL}/chat`, {
                 method: "POST",
                 headers: {
                     "Content-Type": "application/json",
@@ -165,73 +165,73 @@ const ChatBotPanel = () => {
     /* ================= UI ================= */
     return (
         <>
-        <div
-            className="ai-close-floating"
-            onClick={() => setOpen(false)}
-        >
-            ✕
-        </div>
-
-        <div className={`ai-panel ${darkMode ? "dark" : "light"}`}>
-
-            {/* HEADER */}
-            <div className="ai-header">
-
-                <div className="left">
-                    <div className="title">Assistant</div>
-                    <div className="status">Online</div>
-                </div>
-
-                <div className="right">
-
-                    <label className="theme-switch">
-                        <input
-                            type="checkbox"
-                            checked={darkMode}
-                            onChange={() => setDarkMode(!darkMode)}
-                        />
-                        <span className="slider"></span>
-                    </label>
-
-                    <button
-                        className={`voice-toggle ${voiceEnabled ? "active" : ""}`}
-                        onClick={() => setVoiceEnabled(!voiceEnabled)}
-                    >
-                        🔊
-                    </button>
-
-                
-
-                </div>
-
-            </div>
-            
-            {/* MESSAGES */}
-            <div className="ai-messages">
-
-                {messages.map((m, i) => (
-                    <ChatMessage key={i} type={m.type} text={m.text} />
-                ))}
-
-                {typing && <ChatMessage type="bot" typing />}
-
-                <div ref={endRef}></div>
+            <div
+                className="ai-close-floating"
+                onClick={() => setOpen(false)}
+            >
+                ✕
             </div>
 
-            {/* INPUT */}
-            <ChatInput
-                input={input}
-                setInput={setInput}
-                sendMessage={sendMessage}
-                startListening={startListening}
-                stopListening={stopListening}
-                isVoiceMode={isVoiceMode}
-            />
+            <div className={`ai-panel ${darkMode ? "dark" : "light"}`}>
 
-        </div>
+                {/* HEADER */}
+                <div className="ai-header">
+
+                    <div className="left">
+                        <div className="title">Assistant</div>
+                        <div className="status">Online</div>
+                    </div>
+
+                    <div className="right">
+
+                        <label className="theme-switch">
+                            <input
+                                type="checkbox"
+                                checked={darkMode}
+                                onChange={() => setDarkMode(!darkMode)}
+                            />
+                            <span className="slider"></span>
+                        </label>
+
+                        <button
+                            className={`voice-toggle ${voiceEnabled ? "active" : ""}`}
+                            onClick={() => setVoiceEnabled(!voiceEnabled)}
+                        >
+                            🔊
+                        </button>
+
+
+
+                    </div>
+
+                </div>
+
+                {/* MESSAGES */}
+                <div className="ai-messages">
+
+                    {messages.map((m, i) => (
+                        <ChatMessage key={i} type={m.type} text={m.text} />
+                    ))}
+
+                    {typing && <ChatMessage type="bot" typing />}
+
+                    <div ref={endRef}></div>
+                </div>
+
+                {/* INPUT */}
+                <ChatInput
+                    input={input}
+                    setInput={setInput}
+                    sendMessage={sendMessage}
+                    startListening={startListening}
+                    stopListening={stopListening}
+                    isVoiceMode={isVoiceMode}
+                />
+
+            </div>
         </>
     );
-    
+
 };
 
 export default ChatBotPanel;

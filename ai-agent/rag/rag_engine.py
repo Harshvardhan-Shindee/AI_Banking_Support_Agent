@@ -1,32 +1,45 @@
-from sentence_transformers import SentenceTransformer
-import faiss, pickle, numpy as np, os
+import pickle, os, re
+from sklearn.feature_extraction.text import TfidfVectorizer
+from sklearn.metrics.pairwise import cosine_similarity
 
-model = SentenceTransformer('all-MiniLM-L6-v2')
+BASE_DIR = os.path.dirname(os.path.abspath(__file__))
+DATA_PATH = os.path.join(BASE_DIR, "data.txt")
+STORE_PATH = os.path.join(BASE_DIR, "vector_store.pkl")
 
 def load_data():
-    with open("rag/data.txt") as f:
-        return [x.strip() for x in f.read().split("\n\n") if x.strip()]
+    with open(DATA_PATH, encoding="utf-8") as f:
+        text = f.read()
+    # Split into sections at each 🔹 marker, keeping header + body together
+    sections = re.split(r'\n(?=🔹)', text)
+    return [s.strip() for s in sections if s.strip()]
 
 def create_vector_store():
     data = load_data()
-    emb = model.encode(data).astype("float32")
-    faiss.normalize_L2(emb)
+    vectorizer = TfidfVectorizer(stop_words="english")
+    matrix = vectorizer.fit_transform(data)
+    with open(STORE_PATH, "wb") as f:
+        pickle.dump({"vectorizer": vectorizer, "matrix": matrix, "data": data}, f)
 
-    index = faiss.IndexFlatIP(len(emb[0]))
-    index.add(emb)
-
-    pickle.dump((index, data), open("rag/vector_store.pkl", "wb"))
+_cache = None
 
 def load_store():
-    if not os.path.exists("rag/vector_store.pkl"):
-        create_vector_store()
-    return pickle.load(open("rag/vector_store.pkl", "rb"))
+    global _cache
+    if _cache is None:
+        if not os.path.exists(STORE_PATH):
+            create_vector_store()
+        with open(STORE_PATH, "rb") as f:
+            _cache = pickle.load(f)
+    return _cache
 
-def search(query):
-    index, data = load_store()
+def search(query, k=1, threshold=0.2):
+    store = load_store()
+    q_vec = store["vectorizer"].transform([query])
+    sims = cosine_similarity(q_vec, store["matrix"])[0]
 
-    q = model.encode([query]).astype("float32")
-    faiss.normalize_L2(q)
+    top_idx = sims.argsort()[::-1][:k]
+    top_idx = [i for i in top_idx if sims[i] >= threshold]
 
-    D, I = index.search(q, k=3)
-    return " ".join([data[i] for i in I[0]])
+    if not top_idx:
+        return None
+
+    return " ".join([store["data"][i] for i in top_idx])
